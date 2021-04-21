@@ -1,6 +1,6 @@
 from django.shortcuts import render
 
-# Lesson_1
+# lesson_1
 # Create your views here.
 # функции = контроллеры = вьюхи
 
