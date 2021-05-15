@@ -135,3 +135,5 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 AUTH_USER_MODEL = 'authapp.User'
+
+LOGIN_URL = '/users/login/'
