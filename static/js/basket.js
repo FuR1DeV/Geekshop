@@ -3,9 +3,10 @@ window.onload = function () {
         var t_href = event.target;
         console.log(t_href.name); // basket_id
         console.log(t_href.value); // basket_quantity
+
         $.ajax({
             url: "/baskets/edit/" + t_href.name + "/" + t_href.value + "/",
-            succes: function (data) {
+            success: function (data) {
                 $('.basket_list').html(data.result);
             }
         });
