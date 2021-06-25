@@ -5,7 +5,8 @@ from django.contrib import auth, messages
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, User, ShopUserProfileEditForm
+from authapp.forms import UserLoginForm, UserRegisterForm, UserProfileForm, ShopUserProfileEditForm
+from authapp.models import User
 from basketapp.models import Basket
 
 
@@ -43,7 +44,7 @@ def register(request):
 def profile(request):
     if request.method == 'POST':
         form = UserProfileForm(data=request.POST, files=request.FILES, instance=request.user)
-        profile_form = ShopUserProfileEditForm(request.POST, instance=request.user.shopuserprofile)
+        profile_form = ShopUserProfileEditForm(data=request.POST, instance=request.user.shopuserprofile)
         if form.is_valid() and profile_form.is_valid():
             form.save()
             return HttpResponseRedirect(reverse('users:profile'))

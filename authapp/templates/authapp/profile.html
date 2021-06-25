@@ -12,7 +12,13 @@
             <h4 class="mt-3 mb-3">Профиль</h4>
             <div class="col-lg-12 text-center">
                 <img width="100" height="100"
-                     src="{% if user.image %} {{ user.image.url }} {% else %} {% static 'vendor/img/users/default_avatar.jpg' %} {% endif %}"
+                     src="{% if user.is_authenticated and not backends.associated %}
+                            {{ user.image.url }}
+                        {% elif backends.associated %}
+                            {{ user.image }}
+                        {% else %}
+                            {% static 'vendor/img/user/unnamed.png' %}
+                        {% endif %}"
                      class="img-thumbnail">
             </div>
             <form action="{% url 'users:profile' %}" method="post" enctype="multipart/form-data">
@@ -34,8 +40,7 @@
                 <div class="form-row">
                     <div class="col-lg-12">
                         <div class="form-group">
-                            <label class="small mb-1"></label>
-                            {{ profile_form.as_p }}
+                            {{ profile_form.as_table }}
                         </div>
                     </div>
                 </div>
@@ -59,7 +64,7 @@
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="col-lg-12" style="margin-top: 33px;">
+                    <div class="col-lg-12" style="margin-top: 33px; margin-bottom: 33px">
                         <input class="btn btn-info btn-block" type="submit" value="Сохранить">
                     </div>
                 </div>
