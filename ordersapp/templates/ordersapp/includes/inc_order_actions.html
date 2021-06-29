@@ -1,0 +1,24 @@
+<div style="margin-bottom: 30px;">
+    {% if object.status == 'FM' %}
+        <button class="btn btn-default btn-round">
+            <a class="btn btn-primary" href="{% url 'order:forming_complete' object.pk %}">
+                Совершить покупку
+            </a>
+        </button>
+        <button class="btn btn-default btn-round">
+            <a class="btn btn-primary" href="{% url 'order:delete' object.pk %}">
+                Удалить
+            </a>
+        </button>
+    {% endif %}
+        <button class="btn btn-default btn-round">
+            <a class="btn btn-primary" href="{% url 'order:list' %}">
+                К списку заказов
+            </a>
+        </button>
+        <button class="btn btn-default btn-round">
+            <a class="btn btn-primary" href="{% url 'index' %}">
+                На главную
+            </a>
+        </button>
+</div>
