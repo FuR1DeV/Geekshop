@@ -1,4 +1,6 @@
 from django.contrib.auth.decorators import login_required
+from django.db.models.signals import pre_save, pre_delete
+from django.dispatch import receiver
 from django.shortcuts import get_object_or_404, HttpResponseRedirect
 from django.urls import reverse, reverse_lazy
 from django.db import transaction
@@ -124,3 +126,21 @@ def order_forming_complete(request, pk):
     order.status = Order.SENT_TO_PROCEED
     order.save()
     return HttpResponseRedirect(reverse('order:list'))
+
+
+@receiver(pre_save, sender=Basket)
+@receiver(pre_save, sender=Order)
+def product_quantity_update_save(sender, update_fields, instance, **kwargs):
+    # if 'product' in update_fields or 'quantity' in update_fields:
+    if instance.pk:
+        instance.product.quantity -= instance.quantity - instance.get_item(instance.pk).quantity
+    else:
+        instance.product.quantity -= instance.quantity
+    instance.product.save()
+
+
+@receiver(pre_delete, sender=Basket)
+@receiver(pre_delete, sender=Order)
+def product_quantity_update_delete(sender, instance, **kwargs):
+    instance.product.quantity += instance.quantity
+    instance.product.save()
