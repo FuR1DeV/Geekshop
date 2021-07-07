@@ -17,7 +17,12 @@
         <link href="{% static 'css/auth-admin.css' %}" rel="stylesheet"/>
     <!-- Custom styles for this template -->
     {% block css %} {% endblock %}
-
+    {% block js %}
+        <script src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
+    {#<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>#}
+        <script src="{% static 'js/jquery.formset.js' %}"></script>
+        <script src="{% static 'js/orders_scripts.js' %}"></script>
+    {% endblock %}
 </head>
 
 <body>
