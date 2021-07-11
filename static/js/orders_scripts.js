@@ -84,6 +84,44 @@ window.onload = function () {
         orderSummoryUpdate(price_arr[orderitem_num], delta_quantity);
     }
 
+    $('.order_form select').change(function () {
+        var target = event.target;
+        orderitem_num = parseInt(target.name.replace('orderitems-', '').replace('-product', ''));
+
+        var orderitem_product_pk = target.options[target.selectedIndex].value;
+
+        if(orderitem_product_pk) {
+            $.ajax({
+                url: '/order/product/' + orderitem_product_pk + '/price/',
+                success: function(data){
+                    if(data.price) {
+                        price_arr[orderitem_num] = parseFloat(data.price);
+                        if(isNaN(quantity_arr[orderitem_num])){
+                            quantity_arr[orderitem_num] = 0;
+                        }
+                        var price_html = '<span class="orderitems-' + orderitem_num + '-price">' + data.price.toString().replace('.', ',') + ' </span> руб ';
+                        var cur_tr = $('.order_form table').find('tr.eq(' + (orderitem_num + 1) + ')');
+                        cur_tr.find('td:eq(2)').html(price_html);
+                        //orderSummoryRecalc();
+                    }
+                }
+            });
+        }
+    });
+
+//    function orderSummoryRecalc(){
+//        order_total_quantity = 0;
+//        order_total_cost = 0;
+//
+//        for(var i = 0; i < TOTAL_FORMS; i++){
+//            order_total_quantity += quantity_arr[i];
+//            order_total_cost += price_arr[i];
+//        }
+//
+//        $('.order_total_quantity').html(order_total_quantity.toString());
+//        $('.order_total_cost').html(order_total_cost.toFixed(2).toString());
+//
+//    };
 
     function orderSummoryUpdate(orderitem_price, delta_quantity) {
         delta_cost = price_arr[orderitem_num] * delta_quantity;
