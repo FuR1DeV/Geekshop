@@ -160,3 +160,14 @@ def product_quantity_update_save(sender, update_fields, instance, **kwargs):
 def product_quantity_update_delete(sender, instance, **kwargs):
     instance.product.quantity += instance.quantity
     instance.product.save()
+
+
+def get_product_price(request, pk):
+    if request.is_ajax():
+        product = Product.objects.get(pk=pk).first()
+        if product:
+            return JsonResponse({'price': get_product_price})
+        else:
+            return JsonResponse({'price': 0})
+
+
