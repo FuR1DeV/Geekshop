@@ -8,3 +8,6 @@ psycopg2-binary
 pillow
 social_auth_app_django
 requests
+django-debug-toolbar
+wheel
+django-debug-toolbar-template-profiler
