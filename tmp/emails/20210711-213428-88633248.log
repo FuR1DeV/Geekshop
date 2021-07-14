@@ -1,0 +1,11 @@
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Subject: Account verify
+From: django@gb.local
+To: vasia19rus@bk.ru
+Date: Sun, 11 Jul 2021 14:34:28 -0000
+Message-ID: <162601406807.10744.13146674645307082533@DESKTOP-II5MLB1>
+
+Your link for account activation: http://localhost:8000/users/verify/vasia19rus@bk.ru/51c99afc049ca96dbb03c5012baf8065c05c1945/
+-------------------------------------------------------------------------------
