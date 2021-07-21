@@ -11,3 +11,5 @@ requests
 django-debug-toolbar
 wheel
 django-debug-toolbar-template-profiler
+django-extensions
+pydotplus
