@@ -3,8 +3,7 @@
 {% block content %}
     <h1 class="mt-4">Редактирование пользователя | {{ user.username }}</h1>
     <div class="card-body">
-        <form action="{% url 'admin_staff:admin_users_update' user.id %}" method="post"
-              enctype="multipart/form-data">
+        <form action="{% url 'admin_staff:admin_users_update' user.id %}" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-row">
                 <div class="col-lg-6">
@@ -23,9 +22,8 @@
             <div class="form-row mb-2">
                 <div class="col-lg-12">
                     <div class="custom-file">
-                        {{ form.avatar }}
-                        <label class="custom-file-label" for="{{ form.avatar.id_for_label }}">Выберите
-                            изображение</label>
+                        {{ form.image }}
+                        <label class="custom-file-label" for="{{ form.image.id_for_label }}">Выберите изображение</label>
                     </div>
                 </div>
             </div>
@@ -48,10 +46,16 @@
         </form>
         <div class="row">
             <div class="col-lg-12" style="margin-top: 33px;">
+                {% if user.is_active %}
                 <form action="{% url 'admin_staff:admin_users_remove' user.id %}" method="post">
                     {% csrf_token %}
-                    <input type="submit" value="Удалить" class="btn btn-danger btn-block">
+                    <input class="btn btn-danger btn-block" type="submit" value="Удалить">
                 </form>
+                {% else %}
+                    <a class="btn btn-danger btn-block" href="{% url 'admin_staff:admin_users_restore' user.id %}">
+                        Восстановить
+                    </a>
+                {% endif %}
             </div>
         </div>
     </div>
