@@ -5,6 +5,8 @@ from django.views.generic.list import ListView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.utils.decorators import method_decorator
 from django.shortcuts import get_object_or_404
+from django.db import connection
+from django.db.models import F
 
 from authapp.models import User
 from mainapp.models import ProductCategory, Product
@@ -131,6 +133,11 @@ class CategoryCreateView(CreateView):
     success_url = reverse_lazy('admin_staff:admin_categories_read')
 
 
+def db_profile_by_type(prefix, type, queries):
+    update_queries = list(filter(lambda x: type in x['sql'], queries))
+    print(f'db_profile {type} for {prefix}:')
+    [print(query['sql']) for query in update_queries]
+
 @method_decorator(user_passes_test(lambda u: u.is_superuser), name='dispatch')
 class CategoryUpdateView(UpdateView):
     model = ProductCategory
@@ -143,6 +150,14 @@ class CategoryUpdateView(UpdateView):
         context['selected_category'] = ProductCategory.objects.get(id=self.kwargs['pk'])
         return context
 
+    def form_valid(self, form):
+        if 'discount' in form.cleaned_data:
+            discount = form.cleaned_data['discount']
+            if discount:
+                self.object.product_set.update(price=F('price') * (1 - discount / 100))
+                db_profile_by_type(self.__class__, 'UPDATE', connection.queries)
+
+        return super().form_valid(form)
 
 @user_passes_test(lambda u: u.is_superuser)
 def admin_categories_remove(request, category_id):
