@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+# Test
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-egz0$ovcww+g#fs^!vlbso&iua7_&fel*eip0mt=355--n0$^^
 DEBUG = True
 # DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -43,8 +43,6 @@ INSTALLED_APPS = [
     'adminapp',
     'ordersapp',
     'social_django',
-    'debug_toolbar',
-    'template_profiler_panel',
     'django_extensions',
 ]
 
@@ -64,9 +62,12 @@ if DEBUG:
     def show_toolbar(request):
         return True
 
+    del MIDDLEWARE[3]
     DEBUG_TOOLBAR_CONFIG = {
         'SHOW_TOOLBAR_CALLBACK': show_toolbar,
     }
+
+    INSTALLED_APPS.extend(['debug_toolbar', 'template_profiler_panel'])
 
     DEBUG_TOOLBAR_PANELS = [
         'debug_toolbar.panels.versions.VersionsPanel',
@@ -112,19 +113,19 @@ WSGI_APPLICATION = 'geekshop.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'geekshop',
-        'USER': 'postgres',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'geekshop',
+#         'USER': 'postgres',
+#     }
+# }
 
 
 # Password validation
